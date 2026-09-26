@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Donor Register</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="form-box">
+
+<h2>Donor Register</h2>
+
+<form method="POST">
+
+<input type="text"
+name="name"
+placeholder="Enter Name"
+required>
+
+<input type="email"
+name="email"
+placeholder="Enter Email"
+required>
+
+<input type="password"
+name="password"
+placeholder="Enter Password"
+required>
+
+<button type="submit">
+Register
+</button>
+
+</form>
+
+</div>
+
+</body>
+</html>

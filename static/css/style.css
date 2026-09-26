@@ -1,0 +1,979 @@
+:root{
+    /* Color system — Emerald / Rose Gold */
+    --color-primary: #10b981;
+    --color-primary-dark: #059669;
+    --color-primary-light: #34d399;
+    --color-accent: #f43f5e;
+    --color-accent-dark: #e11d48;
+    --color-accent-light: #fb7185;
+
+    --color-success: #10b981;
+    --color-success-dark: #059669;
+    --color-warning: #f59e0b;
+    --color-danger: #e11d48;
+
+    --color-text: #1a2e28;
+    --color-text-muted: #55625c;
+    --color-text-subtle: #79857f;
+
+    --glass-bg: rgba(255, 255, 255, 0.6);
+    --glass-bg-strong: rgba(255, 255, 255, 0.82);
+    --glass-border: rgba(255, 255, 255, 0.65);
+    --glass-blur: blur(18px);
+
+    --shadow-sm: 0 2px 8px rgba(16, 185, 129, 0.10);
+    --shadow-md: 0 8px 24px rgba(16, 185, 129, 0.14);
+    --shadow-lg: 0 20px 48px rgba(16, 185, 129, 0.20);
+    --shadow-glow: 0 0 0 4px rgba(16, 185, 129, 0.18);
+
+    --radius-sm: 12px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+
+    --bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --transition: 0.25s var(--bounce);
+}
+
+/* ============ DARK MODE OVERRIDES ============
+   Add data-theme="dark" to <body> (or toggle it via JS) to activate.
+   e.g. <body data-theme="dark"> or document.body.dataset.theme = "dark" */
+
+body[data-theme="dark"]{
+    --color-text: #eaf5ef;
+    --color-text-muted: #b7c7bf;
+    --color-text-subtle: #8a988f;
+
+    --glass-bg: rgba(20, 30, 26, 0.55);
+    --glass-bg-strong: rgba(20, 30, 26, 0.78);
+    --glass-border: rgba(255, 255, 255, 0.12);
+
+    background-color: #0f1a15;
+    background-image:
+        radial-gradient(circle at 12% 18%, rgba(16, 185, 129, 0.18) 0%, transparent 42%),
+        radial-gradient(circle at 88% 12%, rgba(244, 63, 94, 0.12) 0%, transparent 42%);
+}
+
+body[data-theme="dark"] input{
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--color-text);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+body[data-theme="dark"] input::placeholder{
+    color: #6b7a72;
+}
+
+/* Simple toggle button you can place anywhere, e.g. in the navbar */
+.theme-toggle{
+    background: rgba(255, 255, 255, 0.2);
+    border: 1.5px solid rgba(255, 255, 255, 0.4);
+    color: white;
+    border-radius: 999px;
+    padding: 8px 14px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: background-color var(--transition);
+}
+
+.theme-toggle:hover{
+    background: rgba(255, 255, 255, 0.32);
+}
+
+*{
+    box-sizing: border-box;
+}
+
+@keyframes fadeInUp{
+    from{ opacity: 0; transform: translateY(18px); }
+    to{ opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideDown{
+    from{ opacity: 0; transform: translateY(-14px); }
+    to{ opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseBar{
+    0%, 100%{ opacity: 1; }
+    50%{ opacity: 0.55; }
+}
+
+@keyframes shimmer{
+    0%{ background-position: -400px 0; }
+    100%{ background-position: 400px 0; }
+}
+
+@keyframes toastIn{
+    from{ opacity: 0; transform: translateY(-12px); }
+    to{ opacity: 1; transform: translateY(0); }
+}
+
+@keyframes modalPop{
+    from{ opacity: 0; transform: translateY(10px); }
+    to{ opacity: 1; transform: translateY(0); }
+}
+
+@keyframes toastLifecycle{
+    0%{ opacity: 0; transform: translateY(-12px); }
+    10%{ opacity: 1; transform: translateY(0); }
+    85%{ opacity: 1; transform: translateY(0); }
+    100%{ opacity: 0; transform: translateY(-12px); visibility: hidden; }
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    font-family: 'Poppins', 'Segoe UI', system-ui, sans-serif;
+    color: var(--color-text);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.55;
+
+    background-color: #f2faf6;
+    background-image:
+        radial-gradient(circle at 12% 18%, rgba(16, 185, 129, 0.22) 0%, transparent 42%),
+        radial-gradient(circle at 88% 12%, rgba(244, 63, 94, 0.16) 0%, transparent 42%),
+        radial-gradient(circle at 20% 92%, rgba(244, 63, 94, 0.10) 0%, transparent 40%),
+        radial-gradient(circle at 90% 88%, rgba(16, 185, 129, 0.16) 0%, transparent 45%);
+    background-attachment: fixed;
+    transition: background-color var(--transition), color var(--transition);
+}
+
+/* NAVBAR */
+
+.navbar{
+    background: linear-gradient(120deg, rgba(16, 185, 129, 0.92) 0%, rgba(244, 63, 94, 0.85) 100%);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    padding: 18px 44px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow-md);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    animation: slideDown 0.5s var(--bounce);
+}
+
+.navbar h1{
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-shadow: 0 1px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Nav link active state — add class="nav-link active" to the current page's link */
+.nav-link{
+    position: relative;
+    padding-bottom: 4px;
+}
+
+.nav-link.active::after{
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -4px;
+    height: 2px;
+    background: white;
+    border-radius: 2px;
+}
+
+/* Hamburger menu — add <button class="navbar-toggle">&#9776;</button> in the navbar,
+   and give the nav links wrapper class="navbar-links" */
+.navbar-toggle{
+    display: none;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 26px;
+    cursor: pointer;
+}
+
+@media (max-width: 640px){
+    .navbar{
+        padding: 16px 20px;
+        flex-wrap: wrap;
+    }
+
+    .navbar-toggle{
+        display: block;
+    }
+
+    .navbar-links{
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 14px;
+    }
+
+    .navbar-links.open{
+        display: flex;
+    }
+
+    .form-box{
+        width: 100%;
+        padding: 28px 22px;
+    }
+
+    .product-grid{
+        grid-template-columns: 1fr;
+    }
+}
+
+/* CONTAINER */
+
+.container{
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 36px;
+    margin-bottom: 56px;
+}
+
+/* BUTTONS */
+
+.btn{
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: white;
+    padding: 10px 22px;
+    text-decoration: none;
+    border-radius: 999px;
+    margin-right: 10px;
+    display: inline-block;
+    transition: background-color var(--transition), transform var(--transition), box-shadow var(--transition);
+    font-weight: 600;
+    font-size: 14px;
+    border: 1.5px solid rgba(255, 255, 255, 0.45);
+    cursor: pointer;
+    letter-spacing: 0.01em;
+}
+
+.btn:hover{
+    background: rgba(255, 255, 255, 0.32);
+    transform: translateY(-2px);
+}
+
+.btn:active{
+    transform: translateY(0);
+}
+
+.home-card .btn,
+.card-content .btn,
+.request-box .btn{
+    background: linear-gradient(120deg, var(--color-primary) 0%, var(--color-accent) 100%);
+    border: none;
+    color: white;
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.30);
+}
+
+.home-card .btn:hover,
+.card-content .btn:hover,
+.request-box .btn:hover{
+    filter: brightness(1.08);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.40);
+}
+
+.home-card .btn:active,
+.card-content .btn:active,
+.request-box .btn:active{
+    transform: translateY(0);
+}
+
+/* PRODUCT GRID */
+
+.product-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 26px;
+    margin-top: 24px;
+}
+
+/* PRODUCT CARD */
+
+.card{
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--glass-border);
+    transition: box-shadow var(--transition), transform var(--transition), border-color var(--transition), background var(--transition);
+    animation: fadeInUp 0.5s var(--bounce) backwards;
+}
+
+.product-grid .card:nth-child(1){ animation-delay: 0.05s; }
+.product-grid .card:nth-child(2){ animation-delay: 0.15s; }
+.product-grid .card:nth-child(3){ animation-delay: 0.25s; }
+.product-grid .card:nth-child(4){ animation-delay: 0.35s; }
+.product-grid .card:nth-child(5){ animation-delay: 0.45s; }
+.product-grid .card:nth-child(6){ animation-delay: 0.55s; }
+
+.card:hover{
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-8px);
+    background: var(--glass-bg-strong);
+    border-color: rgba(16, 185, 129, 0.4);
+}
+
+.product-image{
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    background-color: rgba(16, 185, 129, 0.08);
+    display: block;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.card-content{
+    padding: 22px;
+}
+
+.card-content h2{
+    margin-top: 0;
+    margin-bottom: 12px;
+    color: var(--color-text);
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.card-content p{
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    margin-bottom: 8px;
+    font-size: 14.5px;
+}
+
+.card-content p b{
+    color: var(--color-text);
+    font-weight: 600;
+}
+
+.card-content .btn{
+    margin-top: 10px;
+}
+
+/* ============ TAGS / CHIPS ============
+   For category & condition. Wrap the value in a span:
+   <p><b>Category:</b> <span class="tag tag-category">Vehicle</span></p>
+   <p><b>Condition:</b> <span class="tag tag-condition-good">Excellent</span></p> */
+
+.tag{
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 999px;
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+}
+
+.tag-category{
+    background: rgba(16, 185, 129, 0.14);
+    color: var(--color-primary-dark);
+}
+
+.tag-condition-good{
+    background: rgba(16, 185, 129, 0.14);
+    color: var(--color-primary-dark);
+}
+
+.tag-condition-fair{
+    background: rgba(245, 158, 11, 0.16);
+    color: #92400e;
+}
+
+.tag-condition-poor{
+    background: rgba(225, 29, 72, 0.14);
+    color: var(--color-danger);
+}
+
+/* ============ AVATAR (donor initials) ============
+   <span class="avatar">Y</span> Yash D Singh */
+
+.avatar{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: linear-gradient(120deg, var(--color-primary) 0%, var(--color-accent) 100%);
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    margin-right: 6px;
+    vertical-align: middle;
+}
+
+/* ============ STATUS BADGES ============
+   Replace plain status text:
+   <span class="badge badge-pending">Pending</span>
+   <span class="badge badge-approved">Approved</span>
+   <span class="badge badge-rejected">Rejected</span> */
+
+.badge{
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 999px;
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.badge-pending{
+    background: rgba(245, 158, 11, 0.16);
+    color: #92400e;
+}
+
+.badge-approved{
+    background: rgba(16, 185, 129, 0.16);
+    color: var(--color-primary-dark);
+}
+
+.badge-rejected{
+    background: rgba(225, 29, 72, 0.14);
+    color: var(--color-danger);
+}
+
+/* ============ EMPTY STATE ============
+   <div class="empty-state">
+     <div class="empty-state-icon">📦</div>
+     <p>No products available yet.</p>
+   </div> */
+
+.empty-state{
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--color-text-subtle);
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border-radius: var(--radius-lg);
+    border: 1px dashed var(--glass-border);
+    animation: fadeInUp 0.5s var(--bounce);
+}
+
+.empty-state-icon{
+    font-size: 42px;
+    margin-bottom: 12px;
+}
+
+/* ============ SEARCH / FILTER BAR ============
+   <div class="search-bar">
+     <input type="text" class="search-input" placeholder="Search products...">
+     <select class="filter-select"><option>All Categories</option></select>
+   </div> */
+
+.search-bar{
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.search-input{
+    flex: 1;
+    min-width: 200px;
+    margin-bottom: 0;
+}
+
+.filter-select{
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid rgba(16, 185, 129, 0.18);
+    background: rgba(255, 255, 255, 0.55);
+    color: var(--color-text);
+    font-family: inherit;
+    font-size: 14.5px;
+    cursor: pointer;
+}
+
+.filter-select:focus{
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-glow);
+}
+
+/* ============ SKELETON LOADING ============
+   Show these placeholder cards while data is fetching, then swap for real cards:
+   <div class="card skeleton-card">
+     <div class="skeleton skeleton-image"></div>
+     <div class="card-content">
+       <div class="skeleton skeleton-line" style="width:60%"></div>
+       <div class="skeleton skeleton-line" style="width:90%"></div>
+     </div>
+   </div> */
+
+.skeleton{
+    background: linear-gradient(90deg, rgba(16,185,129,0.08) 25%, rgba(16,185,129,0.16) 37%, rgba(16,185,129,0.08) 63%);
+    background-size: 800px 100%;
+    animation: shimmer 1.4s linear infinite;
+    border-radius: 8px;
+}
+
+.skeleton-image{
+    width: 100%;
+    height: 220px;
+}
+
+.skeleton-line{
+    height: 14px;
+    margin-bottom: 10px;
+}
+
+/* ============ TOAST NOTIFICATIONS ============
+   Needs a tiny bit of JS to show/hide (add/remove the class or element).
+   <div class="toast toast-success">Product added successfully!</div>
+   Position it fixed so it floats over the page; JS should remove it after ~3s. */
+
+.toast{
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 1000;
+    padding: 14px 22px;
+    border-radius: var(--radius-sm);
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+    box-shadow: var(--shadow-lg);
+    animation: toastLifecycle 4s ease forwards;
+    pointer-events: none;
+}
+
+.toast-success{
+    background: linear-gradient(120deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+}
+
+.toast-error{
+    background: linear-gradient(120deg, var(--color-danger) 0%, var(--color-accent-dark) 100%);
+}
+
+/* ============ CONFIRMATION MODAL ============
+   Needs JS to toggle visibility (e.g. add/remove "open" class).
+   <div class="modal-overlay open">
+     <div class="modal">
+       <h2>Are you sure?</h2>
+       <p>This action cannot be undone.</p>
+       <button class="btn-modal-confirm">Yes, continue</button>
+       <button class="btn-modal-cancel">Cancel</button>
+     </div>
+   </div> */
+
+.modal-overlay{
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(26, 46, 40, 0.45);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-overlay.open{
+    display: flex;
+}
+
+.modal{
+    background: var(--glass-bg-strong);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    width: 360px;
+    max-width: 90%;
+    box-shadow: var(--shadow-lg);
+    animation: modalPop 0.3s var(--bounce);
+}
+
+.modal h2{
+    margin-top: 0;
+    font-size: 20px;
+    color: var(--color-text);
+}
+
+.modal p{
+    color: var(--color-text-muted);
+    font-size: 14.5px;
+    margin-bottom: 20px;
+}
+
+.btn-modal-confirm{
+    background: linear-gradient(120deg, var(--color-primary) 0%, var(--color-accent) 100%);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.btn-modal-cancel{
+    background: transparent;
+    border: 1.5px solid var(--color-border, #d1d5db);
+    color: var(--color-text-muted);
+    padding: 10px 20px;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* FORM BOX */
+
+.form-box{
+    width: 420px;
+    max-width: 100%;
+    margin: 0 auto;
+    margin-top: 60px;
+    background: var(--glass-bg-strong);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    padding: 40px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--glass-border);
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 0.5s var(--bounce);
+}
+
+.form-box::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(120deg, var(--color-primary) 0%, var(--color-accent) 100%);
+}
+
+.form-box h2{
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 28px;
+    color: var(--color-text);
+    font-size: 23px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+/* INPUTS */
+
+input{
+    width: 100%;
+    padding: 12px 16px;
+    margin-top: 6px;
+    margin-bottom: 18px;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid rgba(16, 185, 129, 0.18);
+    font-size: 14.5px;
+    font-family: inherit;
+    color: var(--color-text);
+    background: rgba(255, 255, 255, 0.55);
+    transition: border-color var(--transition), box-shadow var(--transition), background-color var(--transition);
+}
+
+input::placeholder{
+    color: #9aa8a2;
+}
+
+input:focus{
+    outline: none;
+    border-color: var(--color-primary);
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: var(--shadow-glow);
+}
+
+/* ============ INLINE VALIDATION ============
+   Add class dynamically via JS as the user types:
+   <input class="input-invalid"> + <p class="input-message input-message-error">Enter a valid email</p>
+   <input class="input-valid"> + <p class="input-message input-message-success">Looks good</p> */
+
+.input-invalid{
+    border-color: var(--color-danger) !important;
+}
+
+.input-invalid:focus{
+    box-shadow: 0 0 0 4px rgba(225, 29, 72, 0.14) !important;
+}
+
+.input-valid{
+    border-color: var(--color-primary) !important;
+}
+
+.input-message{
+    margin-top: -14px;
+    margin-bottom: 16px;
+    font-size: 12.5px;
+    font-weight: 500;
+}
+
+.input-message-error{
+    color: var(--color-danger);
+}
+
+.input-message-success{
+    color: var(--color-primary-dark);
+}
+
+/* ============ PASSWORD VISIBILITY TOGGLE ============
+   Wrap the password input:
+   <div class="password-field">
+     <input type="password">
+     <button type="button" class="password-toggle">👁</button>
+   </div> */
+
+.password-field{
+    position: relative;
+}
+
+.password-field input{
+    padding-right: 44px;
+}
+
+.password-toggle{
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    background: none;
+    border: none;
+    width: auto;
+    padding: 0;
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--color-text-subtle);
+}
+
+/* BUTTON (submit) */
+
+button{
+    width: 100%;
+    background: linear-gradient(120deg, var(--color-primary) 0%, var(--color-accent) 100%);
+    color: white;
+    border: none;
+    padding: 13px;
+    border-radius: var(--radius-sm);
+    font-size: 15.5px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: filter var(--transition), transform var(--transition), box-shadow var(--transition);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    box-shadow: 0 6px 18px rgba(16, 185, 129, 0.32);
+}
+
+button:hover{
+    filter: brightness(1.08);
+    box-shadow: 0 8px 22px rgba(16, 185, 129, 0.42);
+    transform: translateY(-2px);
+}
+
+button:active{
+    transform: translateY(0);
+}
+
+/* ============ PASSWORD STRENGTH METER ============
+   <div class="password-strength">
+     <div class="password-strength-bar strength-weak"></div>
+   </div>
+   JS swaps the class (strength-weak / strength-medium / strength-strong) as the user types. */
+
+.password-strength{
+    height: 5px;
+    border-radius: 3px;
+    background: rgba(0, 0, 0, 0.08);
+    margin-top: -12px;
+    margin-bottom: 18px;
+    overflow: hidden;
+}
+
+.password-strength-bar{
+    height: 100%;
+    border-radius: 3px;
+    transition: width var(--transition), background-color var(--transition);
+}
+
+.strength-weak{
+    width: 33%;
+    background: var(--color-danger);
+}
+
+.strength-medium{
+    width: 66%;
+    background: var(--color-warning);
+}
+
+.strength-strong{
+    width: 100%;
+    background: var(--color-primary);
+}
+
+/* REQUEST BOX */
+
+.request-box{
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border-left: 5px solid var(--color-warning);
+    padding: 20px 22px;
+    margin-top: 20px;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    border-top: 1px solid var(--glass-border);
+    border-right: 1px solid var(--glass-border);
+    border-bottom: 1px solid var(--glass-border);
+    transition: transform var(--transition), box-shadow var(--transition);
+    animation: fadeInUp 0.5s var(--bounce) backwards;
+}
+
+.request-box:hover{
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+
+.request-box p{
+    margin: 0 0 8px 0;
+    color: var(--color-text-muted);
+    font-size: 14.5px;
+}
+
+.request-box p b{
+    color: var(--color-text);
+    font-weight: 600;
+}
+
+.request-box p:last-child{
+    margin-bottom: 12px;
+}
+
+.request-box .btn:nth-of-type(2){
+    background: transparent;
+    color: var(--color-danger);
+    border: 1.5px solid var(--color-danger);
+    box-shadow: none;
+}
+
+.request-box .btn:nth-of-type(2):hover{
+    background: rgba(225, 29, 72, 0.1);
+    filter: none;
+    box-shadow: none;
+}
+
+/* HEADINGS */
+
+.section-title{
+    margin-top: 44px;
+    margin-bottom: 18px;
+    color: var(--color-text);
+    font-size: 25px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: fadeInUp 0.5s var(--bounce);
+}
+
+.section-title::before{
+    content: "";
+    width: 5px;
+    height: 22px;
+    border-radius: 3px;
+    background: linear-gradient(180deg, var(--color-primary), var(--color-accent));
+    display: inline-block;
+}
+
+/* HOME PAGE */
+
+.home-card{
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    padding: 24px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--glass-border);
+    margin-top: 20px;
+    transition: box-shadow var(--transition), transform var(--transition), background var(--transition);
+    animation: fadeInUp 0.5s var(--bounce) backwards;
+}
+
+.home-card:nth-of-type(1){ animation-delay: 0.05s; }
+.home-card:nth-of-type(2){ animation-delay: 0.15s; }
+.home-card:nth-of-type(3){ animation-delay: 0.25s; }
+
+.home-card:hover{
+    box-shadow: var(--shadow-md);
+    transform: translateY(-5px);
+    background: var(--glass-bg-strong);
+}
+
+.home-card h2{
+    color: var(--color-text);
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.home-card p{
+    line-height: 1.6;
+    color: var(--color-text-muted);
+    font-size: 14.5px;
+}
+
+/* FOOTER */
+
+footer{
+    text-align: center;
+    padding: 26px;
+    color: var(--color-text-subtle);
+    font-size: 13px;
+    border-top: 1px solid rgba(16, 185, 129, 0.14);
+    margin-top: 44px;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+}
+
+select{
+    width: 100%;
+    padding: 12px 16px;
+    margin-top: 6px;
+    margin-bottom: 18px;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid rgba(16, 185, 129, 0.18);
+    font-size: 14.5px;
+    font-family: inherit;
+    color: var(--color-text);
+    background: rgba(255, 255, 255, 0.55);
+    cursor: pointer;
+    transition: border-color var(--transition), box-shadow var(--transition), background-color var(--transition);
+}
+
+select:focus{
+    outline: none;
+    border-color: var(--color-primary);
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: var(--shadow-glow);
+}

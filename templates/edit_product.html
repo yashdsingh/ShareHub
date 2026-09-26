@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Edit Product</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <div class="toast {{ 'toast-success' if category == 'success' else 'toast-error' }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<div class="form-box">
+
+<h2>Edit Product</h2>
+
+<form method="POST"
+enctype="multipart/form-data">
+
+<input type="text"
+name="title"
+placeholder="Product Title"
+value="{{ product[1] }}"
+required>
+
+<input type="text"
+name="description"
+placeholder="Description"
+value="{{ product[2] }}"
+required>
+
+<input type="text"
+name="category"
+placeholder="Category"
+value="{{ product[3] }}"
+required>
+
+<select name="condition" required>
+    <option value="Excellent" {% if product[4] == "Excellent" %}selected{% endif %}>Excellent</option>
+    <option value="Used but Good" {% if product[4] == "Used but Good" %}selected{% endif %}>Used but Good</option>
+    <option value="Fair" {% if product[4] == "Fair" %}selected{% endif %}>Fair</option>
+    <option value="Poor" {% if product[4] == "Poor" %}selected{% endif %}>Poor</option>
+</select>
+
+<input type="file"
+name="image">
+
+<button type="submit">
+Save Changes
+</button>
+
+</form>
+
+</div>
+
+</body>
+</html>

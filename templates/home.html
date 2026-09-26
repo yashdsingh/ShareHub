@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>ShareHub</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <div class="navbar">
+
+        <h1>🛍️ ShareHub</h1>
+
+    </div>
+
+    <!-- MAIN CONTAINER -->
+
+    <div class="container">
+
+        <!-- ABOUT SECTION -->
+
+        <div class="home-card">
+
+            <h2>About ShareHub</h2>
+
+            <p>
+                ShareHub is a donation platform where donors can share
+                used products and receivers can request them easily.
+                This system helps reduce waste and supports people
+                who need useful items.
+            </p>
+
+        </div>
+
+        <!-- DONOR PANEL -->
+
+        <div class="home-card">
+
+            <h2>Donor Panel</h2>
+
+            <a class="btn" href="/donor_register">
+                Register
+            </a>
+
+            <a class="btn" href="/donor_login">
+                Login
+            </a>
+
+        </div>
+
+        <!-- RECEIVER PANEL -->
+
+        <div class="home-card">
+
+            <h2>Receiver Panel</h2>
+
+            <a class="btn" href="/receiver_register">
+                Register
+            </a>
+
+            <a class="btn" href="/receiver_login">
+                Login
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+
+    <footer style="text-align:center; padding:20px; color:gray;">
+
+        ShareHub Mini Project © 2026
+
+    </footer>
+
+</body>
+</html>

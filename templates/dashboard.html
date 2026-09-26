@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <div class="toast {{ 'toast-success' if category == 'success' else 'toast-error' }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+    <!-- NAVBAR -->
+
+    <div class="navbar">
+
+        <h1>ShareHub</h1>
+
+        <div>
+
+            {% if role == "donor" %}
+
+            <a class="btn" href="/add_product">
+                Add Product
+            </a>
+
+            {% endif %}
+
+            <a class="btn" href="/logout">
+                Logout
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- MAIN -->
+
+    <div class="container">
+
+        <h2 class="section-title">
+            Available Products
+        </h2>
+
+        <!-- PRODUCT GRID -->
+
+        <div class="product-grid">
+
+            {% if not products %}
+
+            <div class="empty-state">
+                <div class="empty-state-icon">📦</div>
+                <p>No products available yet.</p>
+            </div>
+
+            {% endif %}
+
+            {% for product in products %}
+
+            <div class="card">
+
+                <img
+                src="{{ url_for('static', filename='uploads/' ~ product[5]) }}"
+                class="product-image">
+
+                <div class="card-content">
+
+                    <h2>{{ product[1] }}</h2>
+
+                    <p>
+                        <b>Description:</b>
+                        {{ product[2] }}
+                    </p>
+
+                    <p>
+                        <b>Category:</b>
+                        <span class="tag tag-category">{{ product[3] }}</span>
+                    </p>
+
+                    <p>
+                        <b>Condition:</b>
+                        {% if product[4] == "Excellent" or product[4] == "Used but Good" %}
+                        <span class="tag tag-condition-good">{{ product[4] }}</span>
+                        {% elif product[4] == "Fair" %}
+                        <span class="tag tag-condition-fair">{{ product[4] }}</span>
+                        {% else %}
+                        <span class="tag tag-condition-poor">{{ product[4] }}</span>
+                        {% endif %}
+                    </p>
+
+                    <p>
+                        <b>Donor:</b>
+                        <span class="avatar">{{ product[6][0] }}</span>{{ product[6] }}
+                    </p>
+
+                    {% if role == "receiver" %}
+
+                    <a class="btn"
+                    href="/request/{{ product[0] }}">
+                        Request Product
+                    </a>
+
+                    {% endif %}
+
+                    {% if role == "donor" and product[7] == current_user_id %}
+
+                    <a class="btn"
+                    href="/edit_product/{{ product[0] }}">
+                        Edit
+                    </a>
+
+                    <a class="btn"
+                    href="/delete_product/{{ product[0] }}">
+                        Delete
+                    </a>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        <!-- REQUEST SECTION -->
+
+        {% if role == "donor" %}
+
+        <h2 class="section-title">
+            Requests Received
+        </h2>
+
+        {% if not requests %}
+
+        <div class="empty-state">
+            <div class="empty-state-icon">📭</div>
+            <p>No requests yet.</p>
+        </div>
+
+        {% endif %}
+
+        {% for req in requests %}
+
+        <div class="request-box">
+
+            <p>
+                <b>Product:</b>
+                {{ req[1] }}
+            </p>
+
+            <p>
+                <b>Requested By:</b>
+                {{ req[2] }}
+            </p>
+
+            <p>
+                <b>Status:</b>
+                {% if req[3] == "Pending" %}
+                <span class="badge badge-pending">{{ req[3] }}</span>
+                {% elif req[3] == "Approved" %}
+                <span class="badge badge-approved">{{ req[3] }}</span>
+                {% else %}
+                <span class="badge badge-rejected">{{ req[3] }}</span>
+                {% endif %}
+            </p>
+
+            <a class="btn"
+            href="/approve/{{ req[0] }}">
+                Approve
+            </a>
+
+            <a class="btn"
+            href="/reject/{{ req[0] }}">
+                Reject
+            </a>
+
+        </div>
+
+        {% endfor %}
+
+        {% endif %}
+
+    </div>
+
+</body>
+</html>

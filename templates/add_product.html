@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Add Product</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="form-box">
+
+<h2>Add Product</h2>
+
+<form method="POST"
+enctype="multipart/form-data">
+
+<input type="text"
+name="title"
+placeholder="Product Title"
+required>
+
+<input type="text"
+name="description"
+placeholder="Description"
+required>
+
+<input type="text"
+name="category"
+placeholder="Category"
+required>
+
+<select name="condition" required>
+    <option value="" disabled selected>Select Condition</option>
+    <option value="Excellent">Excellent</option>
+    <option value="Used but Good">Used but Good</option>
+    <option value="Fair">Fair</option>
+    <option value="Poor">Poor</option>
+</select>
+
+<input type="file"
+name="image"
+required>
+
+<button type="submit">
+Add Product
+</button>
+
+</form>
+
+</div>
+
+</body>
+</html>
