@@ -1,85 +1,90 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-
-    <title>ShareHub</title>
-
-    <link rel="stylesheet"
-    href="{{ url_for('static', filename='css/style.css') }}">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ShareHub | Give good things a second home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+<body class="home-page">
+    <header class="navbar">
+        <a class="brand" href="/" aria-label="ShareHub home">
+            <span class="brand-mark" aria-hidden="true">S</span>
+            <span>ShareHub</span>
+        </a>
+        <span class="nav-note">A little sharing goes a long way</span>
+    </header>
 
-<body>
+    <main class="container home-container">
+        <section class="home-hero">
+            <div class="hero-copy">
+                <span class="eyebrow"><span class="eyebrow-dot"></span> A community that shares</span>
+                <h1>Good things deserve a <span>second home.</span></h1>
+                <p>Pass along the things you no longer need, or find something useful from a neighbor. Sharing makes more room for what matters.</p>
+                <div class="hero-actions">
+                    <a class="btn btn-primary" href="/donor_register">Give an item <span aria-hidden="true">→</span></a>
+                    <a class="text-link" href="/receiver_login">Find something useful <span aria-hidden="true">↗</span></a>
+                </div>
+                <div class="hero-note">
+                    <span class="note-icon" aria-hidden="true">♡</span>
+                    <span>Good for your community. A little kinder to the planet.</span>
+                </div>
+            </div>
+            <div class="hero-art" aria-hidden="true">
+                <div class="art-orbit orbit-one"></div>
+                <div class="art-orbit orbit-two"></div>
+                <div class="art-sun"></div>
+                <div class="art-card art-card-main">
+                    <span class="art-emoji">🌱</span>
+                    <span class="art-card-label">Pass it on</span>
+                    <span class="art-card-title">A new chapter<br>starts here.</span>
+                </div>
+                <div class="art-card art-card-small art-card-top">
+                    <span class="art-mini-icon">↗</span>
+                    <span>Share what<br>you can</span>
+                </div>
+                <div class="art-card art-card-small art-card-bottom">
+                    <span class="art-mini-icon">♡</span>
+                    <span>Find what<br>you need</span>
+                </div>
+                <span class="art-sparkle sparkle-one">✳</span>
+                <span class="art-sparkle sparkle-two">✦</span>
+            </div>
+        </section>
 
-    <!-- NAVBAR -->
+        <section class="community-section" aria-labelledby="get-started-title">
+            <div class="section-heading">
+                <div>
+                    <span class="eyebrow">Make a difference, your way</span>
+                    <h2 id="get-started-title">How would you like to join in?</h2>
+                </div>
+                <p>Every useful item shared is one less thing wasted.</p>
+            </div>
+            <div class="role-grid">
+                <article class="home-card role-card donor-card">
+                    <span class="role-icon" aria-hidden="true">↗</span>
+                    <span class="role-kicker">For generous hearts</span>
+                    <h3>Share what you have</h3>
+                    <p>List an item you no longer need and help it find someone who will.</p>
+                    <div class="role-actions">
+                        <a class="btn btn-primary" href="/donor_register">Create donor account</a>
+                        <a class="text-link" href="/donor_login">Already a donor? Log in</a>
+                    </div>
+                </article>
+                <article class="home-card role-card receiver-card">
+                    <span class="role-icon" aria-hidden="true">♡</span>
+                    <span class="role-kicker">For thoughtful finders</span>
+                    <h3>Find something useful</h3>
+                    <p>Browse community listings and request an item that could make your day.</p>
+                    <div class="role-actions">
+                        <a class="btn btn-primary" href="/receiver_register">Create receiver account</a>
+                        <a class="text-link" href="/receiver_login">Already a receiver? Log in</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
 
-    <div class="navbar">
-
-        <h1>🛍️ ShareHub</h1>
-
-    </div>
-
-    <!-- MAIN CONTAINER -->
-
-    <div class="container">
-
-        <!-- ABOUT SECTION -->
-
-        <div class="home-card">
-
-            <h2>About ShareHub</h2>
-
-            <p>
-                ShareHub is a donation platform where donors can share
-                used products and receivers can request them easily.
-                This system helps reduce waste and supports people
-                who need useful items.
-            </p>
-
-        </div>
-
-        <!-- DONOR PANEL -->
-
-        <div class="home-card">
-
-            <h2>Donor Panel</h2>
-
-            <a class="btn" href="/donor_register">
-                Register
-            </a>
-
-            <a class="btn" href="/donor_login">
-                Login
-            </a>
-
-        </div>
-
-        <!-- RECEIVER PANEL -->
-
-        <div class="home-card">
-
-            <h2>Receiver Panel</h2>
-
-            <a class="btn" href="/receiver_register">
-                Register
-            </a>
-
-            <a class="btn" href="/receiver_login">
-                Login
-            </a>
-
-        </div>
-
-    </div>
-
-    <!-- FOOTER -->
-
-    <footer style="text-align:center; padding:20px; color:gray;">
-
-        ShareHub Mini Project © 2026
-
-    </footer>
-
+    <footer class="site-footer">ShareHub <span>·</span> Making good things go further <span>·</span> 2026</footer>
 </body>
 </html>

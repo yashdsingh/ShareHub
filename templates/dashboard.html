@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 
     <title>Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
@@ -27,11 +29,14 @@
 
     <!-- NAVBAR -->
 
-    <div class="navbar">
+    <header class="navbar">
 
-        <h1>ShareHub</h1>
+        <a class="brand" href="/" aria-label="ShareHub home">
+            <span class="brand-mark" aria-hidden="true">S</span>
+            <span>ShareHub</span>
+        </a>
 
-        <div>
+        <nav class="navbar-actions" aria-label="Account">
 
             {% if role == "donor" %}
 
@@ -41,21 +46,25 @@
 
             {% endif %}
 
-            <a class="btn" href="/logout">
+            <a class="btn nav-logout" href="/logout">
                 Logout
             </a>
 
-        </div>
+        </nav>
 
-    </div>
+    </header>
 
     <!-- MAIN -->
 
     <div class="container">
 
-        <h2 class="section-title">
-            Available Products
-        </h2>
+        <div class="dashboard-intro">
+            <div>
+                <span class="eyebrow">The community shelf</span>
+                <h1>Available products</h1>
+                <p>Discover useful things shared by your community.</p>
+            </div>
+        </div>
 
         <!-- PRODUCT GRID -->
 
@@ -76,7 +85,9 @@
 
                 <img
                 src="{{ url_for('static', filename='uploads/' ~ product[5]) }}"
-                class="product-image">
+                class="product-image"
+                alt="{{ product[1] }}"
+                loading="lazy">
 
                 <div class="card-content">
 
@@ -108,6 +119,7 @@
                         <span class="avatar">{{ product[6][0] }}</span>{{ product[6] }}
                     </p>
 
+                    <div class="product-actions">
                     {% if role == "receiver" %}
 
                     <a class="btn"
@@ -130,6 +142,7 @@
                     </a>
 
                     {% endif %}
+                    </div>
 
                 </div>
 
@@ -144,7 +157,7 @@
         {% if role == "donor" %}
 
         <h2 class="section-title">
-            Requests Received
+            Requests received
         </h2>
 
         {% if not requests %}
